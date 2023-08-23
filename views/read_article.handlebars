@@ -1,0 +1,108 @@
+<div class="container_local">
+    <div id="content_local">
+
+        <h2 class= "mt-4 font-color">Read Article</h2>
+        <div class="card mt-4">
+            <div class="card-body">
+                <h4 class="card-title">{{article.title}}</h4>
+                <div class="card-subtitle mb-2 text-muted small">
+                    <p> Written by {{auther.username}},  {{article.formattedDate}}</p>
+                </div>
+                <div class="card-text mb-2">
+                    {{{article.content}}}
+                </div>
+                <button class="btn btn-primary like-button mt-4" data-article-id="{{article.articleId}}" {{#if article.liked}}disabled{{/if}}>{{#if article.liked}}You have liked this article{{else}}Like{{/if}}</button>
+                <p>Likes: {{article.like_count}}</p>
+
+                <!-- Add a button to toggle comments -->
+                <button class="btn btn-primary mt-4"  id="toggle-comments-button">Show Comments</button>
+
+
+                <div id="comments-section" style="display: none;">
+                    <!--        Display comments-->
+                    <h5 class="mt-4">Comments:</h5>
+                    {{#each article.comments}}
+                        <div class="card mt-2">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">{{this.username}}</h6>
+                                <div class="card-subtitle mb-2 text-muted small">
+                                    <p> {{this.commentDate}}, {{this.commentTime}} </p>
+                                </div>
+                                <hr>
+                                <p class="card-text">{{this.commentContent}}</p>
+                                {{#if ../userIsAuthor}} <button class="btn btn-danger mt-2 delete-comment" type="button" data-comment-id="{{this.commentId}}">Delete comment</button> {{/if}}
+                                {{#unless ../userIsAuthor}}
+                                    {{#ifCond ../validUser.username this.username}} <button class="btn btn-danger mt-2 delete-comment" type="button" data-comment-id="{{this.commentId}}">Delete comment</button> {{/ifCond}}
+                                {{/unless}}
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+<!--            Add comments-->
+        <h5 class="mt-4 font-color">Add Comment:</h5>
+        <form action="/postcomment" method="post" class="mb-4">
+            <div class="form-group">
+                <textarea class="form-control" name="commentContent" id="commentContent" rows="3" maxlength="255"></textarea>
+                <p id="charCount" style="text-align: right">0 / 255</p>
+            </div>
+            <input type="hidden" name="articleId" value="{{article.articleId}}">
+
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+
+        </form>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('commentContent').addEventListener('input', function () {
+        var count = this.value.length;
+        document.getElementById('charCount').innerText = count + ' / 255';
+    });
+
+    document.querySelectorAll(".delete-comment").forEach(function(button) {
+        button.addEventListener("click", function(e) {
+            const commentId = e.target.getAttribute("data-comment-id");
+
+            fetch('/deleteComment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ commentId: commentId }),
+            }).then(response => response.json())
+                    .then(data => {
+                        if(data.status === "success") {
+                            // Comment was deleted, remove it from the page
+                            e.target.parentNode.parentNode.remove();
+                        }else if(data.status === "not-logged-in") {
+                            // User is not logged in, redirect them to the login page
+                            window.location.href = "/login?message=Please log in to delete a comment.";
+                        }
+                        else {
+                            // There was an error deleting the comment
+                            alert("There was an error deleting the comment.");
+                        }
+                    }).catch((error) => {
+                console.error('Error:', error);
+            });
+            });
+
+        });
+
+    document.getElementById('toggle-comments-button').addEventListener('click', function () {
+        var commentsSection = document.getElementById('comments-section');
+        if (commentsSection.style.display === "none") {
+            commentsSection.style.display = "block";
+            this.textContent = "Hide Comments";
+        } else {
+            commentsSection.style.display = "none";
+            this.textContent = "Show Comments";
+        }
+    });
+
+
+</script>

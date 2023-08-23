@@ -1,0 +1,26 @@
+# Mac stuff
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# IntelliJ
+/out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# dotenv environment variables file
+.env
+.env.test
+
+#gitignore
+*.env

@@ -1,0 +1,25 @@
+<div class="container_local">
+    <div id="content_local">
+        <h2 class= "mt-4 font-color">New Article</h2>
+        <form {{#if article.articleId}}action="/updateArticle" {{else}} action="/newArticle" {{/if}} method="POST">
+            <label class="mt-4 font-color" for="title">Title:</label>
+            <p class="form_input_local"><input type="text" class="form-control"  name="title" value="{{article.title}}" value="test" required></p>
+            <label class="mt-4 font-color" for="body">Content:</label>
+            <p class="form_input_local"><textarea class="form-control"  name="content_body" id="content_body" rows="20" required>{{article.content}}</textarea></p>
+            {{#if article.articleId}}
+                <p ><input class="btn btn-success mt-4 " type="submit" value="Update Article">
+                <input class="btn btn-danger mt-4"type="reset" value="Reset"></p>
+                <input type="hidden" name="articleId" value="{{article.articleId}}">
+            {{else}}
+                <p ><input class="btn btn-success mt-4 " type="submit" value="Post Article">
+                <input class="btn btn-danger mt-4"type="reset" value="Reset"></p>
+            {{/if}}
+
+        </form>
+    </div>
+</div>
+
+
+<script>
+     CKEDITOR.replace('content_body');
+</script>

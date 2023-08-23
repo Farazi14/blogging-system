@@ -1,0 +1,144 @@
+<div class="container_local">
+
+    <div id="content_local">
+        {{#if message}}
+            <p class="mt-4" style="font-size: xx-large"><strong>{{message}}</strong></p>
+        {{/if}}
+        <h2 class=" mt-4">All Articles</h2>
+        <p><button class="btn btn-success mt-4" onclick="window.location.href = '/postArticle'">New Article</button></p>
+
+        <div class="sort-options">
+            <input type="radio" id="sortByTitle" name="sort" value="title">
+            <label for="sortByTitle">Article Title</label>
+            <input class="ml-10" type="radio" id="sortByUsername" name="sort" value="username">
+            <label for="sortByUsername">Username</label>
+            <input type="radio" id="sortByDate" name="sort" value="date">
+            <label for="sortByDate">Date</label>
+        </div>
+
+
+        {{#each articles}}
+            <div class="card mt-4 article" data-id="{{articleId}}" data-title="{{title}}" data-username="{{username}}" data-date="{{formattedDate}}"> <!--  used by javascript to sort the articles.-->
+                <div class="card-body">
+                    <h4 class="card-title">{{title}}</h4>
+                    <div class="card-subtitle mb-2 text-muted small">
+                    <p> Written by {{username}},  {{formattedDate}}</p>     <!--   use this place to publish article author-->
+                    </div>
+                    <div class="card-text mb-2 truncated-content">
+                        {{{content}}}
+                    </div>
+                    {{#if isAuthor}}
+                        <button class="btn btn-warning edit-btn mt-4" onclick="redirectToPostArticle.call(this)" data-id="{{articleId}}">Edit</button>
+                        <button class="btn btn-danger delete-btn mt-4">Delete</button>
+                    {{/if}}
+                        <button class="btn btn-info info-btn mt-4" onclick="redirectToReadArticle.call(this)" data-id="{{articleId}}" >Read More</button>
+                    {{#if ../validUser}}<button class="btn btn-primary like-button mt-4" data-article-id="{{articleId}}" {{#if liked}}disabled{{/if}}>{{#if liked}}You have liked this article{{else}}Like{{/if}}</button>{{/if}}
+                    <p class= "mt-4" id="like-count-{{articleId}}">Likes: {{likesCount}}</p>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>
+
+
+
+<script>
+            // Sort the articles when the sort option is changed
+            document.querySelector('.sort-options').addEventListener('change', function(e) {
+            var sortBy = e.target.value;
+            var content = document.getElementById('content_local');
+            var articles = Array.from(content.getElementsByClassName('article'));
+
+
+            // Sort the articles function
+            articles.sort(function(a, b) {
+            var aValue = a.getAttribute('data-' + sortBy);
+            var bValue = b.getAttribute('data-' + sortBy);
+                if (sortBy === 'date') {
+                    // Switched the comparison to make it sort from latest to oldest
+                    return aValue > bValue ? -1 : (aValue < bValue ? 1 : 0);
+                } else {
+                    return aValue.localeCompare(bValue);
+                }
+            });
+            // Remove the existing articles
+            articles.forEach(function(article) {
+            content.removeChild(article);
+            });
+            // Add the sorted articles
+            articles.forEach(function(article) {
+            content.appendChild(article);
+            });
+            });
+
+            // delete article handler, when delete button is clicked
+            document.addEventListener('DOMContentLoaded', function() {
+                let deleteButtons = document.querySelectorAll('.delete-btn');
+
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        let articleDiv = this.closest('.article');
+                        let articleId = articleDiv.getAttribute('data-id');
+
+                        fetch('/articles/' + articleId, {
+                            method: 'DELETE',
+                        })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                    // On successful delete request, remove the article from the DOM
+                                    articleDiv.remove();
+                                })
+                                .catch(error => {
+                                    console.error('There has been a problem with your fetch operation:', error);
+                                });
+                    });
+                });
+            });
+            // edit button handler, when edit button is clicked
+            function redirectToPostArticle() {
+                var articleId = this.getAttribute('data-id'); // capture the data-id value
+                console.log(articleId);
+                window.location.href = "/postArticle?articleId=" + articleId; // append the articleId as a query parameter
+            }
+
+            // like button handler, when like button is clicked
+            document.addEventListener("DOMContentLoaded", function() {
+                var likeButtons = document.querySelectorAll(".like-button");
+                likeButtons.forEach(function(button) {
+                    button.addEventListener("click", function() {
+                        var articleId = this.getAttribute("data-article-id");
+                        console.log(articleId);
+                        fetch('/like/' + articleId, { method: 'POST' })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        var likeCountElement = document.getElementById("like-count-" + articleId);
+                                        console.log(likeCountElement.innerText);
+                                        var currentCount = likeCountElement.innerText.split(": ")[1];
+
+                                        var newCount = parseInt(currentCount) + 1;
+
+                                        likeCountElement.innerText = "Likes: " + newCount;
+                                        this.innerText = "You have liked this article";
+                                        this.setAttribute("disabled", "disabled");
+                                    } else {if (data.redirectTo) {
+                                        window.location.href = data.redirectTo;
+                                    } else {
+                                        alert(data.message);
+                                    }
+                                    }
+                                });
+                    });
+                });
+            });
+
+            // read more button handler, when read more button is clicked
+            function redirectToReadArticle() {
+                var articleId = this.getAttribute('data-id'); // capture the data-id value
+                console.log(articleId);
+                window.location.href = "/readArticle?articleId=" + articleId; // append the articleId as a query parameter
+            }
+
+</script>

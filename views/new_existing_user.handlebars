@@ -1,0 +1,134 @@
+<div class="container_local">
+    <div id="content_local">
+
+
+    {{#if new_user}}
+        <h2 class ="mt-4">New Account</h2>
+        <h4 class ="mt-4"> Please complete the form.</h4>
+        {{else}}
+            <h2 class ="mt-4">Edit Profile</h2>
+    {{/if}}
+
+
+    <form {{#if new_user}}action="./newUser" {{else}} action="./profile" {{/if}} method="POST">
+        {{#if existingUser}}
+               <p> <img src="../avatars/{{existingUser.avatar}}"></p>
+        {{/if}}
+        <label for="txtUsername">Username:</label>
+        <p class="form_input_local"><input type="text" name="username" id="txtUsername" required oninput="checkUsernameAvailability(this.value)" {{#if existingUser}}value="{{existingUser.username}}" {{/if}}>
+            <span id="usernameAvailability" style="color: red; display: none;">Username is already taken</span>
+        </p>
+        {{#if new_user}}<label for="txtPassword">Password:</label>{{else}}<label for="txtPassword">New Password:</label>{{/if}}
+        <p class="form_input_local"><input type="password" name="password" id="txtPassword1" {{#if new_user}}required{{/if}} ></p>
+
+        <label for="txtPassword">Re-enter Password:</label>
+        <p class="form_input_local">
+            <input type="password" name="match_password" id="txtPassword2" {{#if new_user}} required{{/if}}>
+            <span id="passwordMismatch" style="color: red; display: none;">Passwords do not match</span>
+        </p>
+
+        <label for="txtName">Name:</label>
+        <p class="form_input_local"><input type="text" name="name" id="txtName" required {{#if existingUser}}value="{{existingUser.user_name}}" {{/if}}></p>
+
+        <label for="birthday">Date of Birth:</label>
+        <p class="form_input_local"><input type="date" name="birthday" id="birthday" required {{#if existingUser}}value="{{existingUser.birthday}}" {{/if}}></p>
+
+        <label for="about">About yourself:</label>
+        <p class="form_input_local"><textarea placeholder="Your brief description." rows="4" cols="50" name="about" id="about" required>{{#if existingUser}}{{existingUser.about}}{{/if}}</textarea></p>
+
+        {{#if new_user}}<label for="selectedAvatar">Choose your Avatar:</label>{{else}}<label>Change your Avatar:</label>{{/if}}
+        <p class="form_input_local">
+        <div class="card_holder_container">
+            {{#each images}}
+                <div class="card_local">
+                    <img class="card-header_local card-img_local" src="../avatars/{{this}}" data-filename="{{this}}" onclick="selectAvatar(event)">
+                </div>
+            {{/each}}
+        </div>
+        </p>
+
+        <p><input type="hidden" id="selectedAvatar" name="selectedAvatar" {{#if new_user}}value="" {{/if}} {{#if existingUser}}value="{{existingUser.avatar}}" {{/if}} </p>
+
+        {{#if new_user}} <button type="submit" id="submitButton">Create Account</button>
+        <button class="btn btn-danger mt-4"  type="reset" onclick="resetAvatar()">Reset </button>
+        {{else}} <button  class="btn btn-success mt-4" type="submit">Update Profile</button>
+            <!--to detect if your has clicked on delete account button-->
+         <button class="btn btn-danger mt-4" type="submit" onclick="document.getElementById('delete_account').value = true;">Delete account </button>
+        <input type="hidden" id="delete_account" name="delete_account" value="false">
+        {{/if}}
+    </form>
+
+
+    </div>
+</div>
+
+
+<script>
+    // match password validation
+    var password1 = document.getElementById("txtPassword1");
+    var password2 = document.getElementById("txtPassword2");
+    var mismatchMessage = document.getElementById("passwordMismatch");
+    // add event listener to enable button when password matches
+    password2.addEventListener("blur", function() {
+        if (password1.value !== password2.value) {
+            mismatchMessage.style.display = "inline";
+        } else {
+            mismatchMessage.style.display = "none";
+        }
+    });
+
+    //get the submit button
+    var submitButton = document.getElementById("submitButton");
+    // initially disable the submit button
+    submitButton.disabled = true;
+    submitButton.classList.add("btn", "btn-secondary", "mt-4");
+
+
+    // avatar selection and deselection
+    var selectedAvatar = null;
+    function selectAvatar(event) {
+        // If an avatar was previously selected, deselect it
+        if (selectedAvatar) {
+            selectedAvatar.classList.remove('selected_local');
+            // If the same avatar was clicked, just clear the selection and return
+            if (selectedAvatar == event.target) {
+                selectedAvatar = null;
+                document.getElementById('selectedAvatar').value = '';
+                submitButton.disabled = true;
+                submitButton.classList.add("btn", "btn-secondary", "mt-4");
+                return;
+            }
+        }
+        // Select the clicked avatar
+        selectedAvatar = event.target;
+        selectedAvatar.classList.add('selected_local');
+        // Save the filename of the selected avatar
+        var filename = event.target.dataset.filename;
+        document.getElementById('selectedAvatar').value = filename;
+        submitButton.disabled = false; //enable submit button
+        submitButton.classList.add("btn", "btn-success", "mt-4");
+    }
+    // deselect avatar when reset button is clicked
+    function resetAvatar(){
+        if (selectedAvatar) {
+            selectedAvatar.classList.remove('selected');
+            selectedAvatar = null;
+            document.getElementById('selectedAvatar').value = '';
+            submitButton.disabled = true; //enable submit button
+            submitButton.classList.add("btn", "btn-secondary", "mt-4");
+        }
+    }
+    // check username availability in realtime.
+    async function checkUsernameAvailability(username) {
+        const response = await fetch(`/checkUsername?username=${username}`);
+        const data = await response.json();
+
+        const availabilityElement = document.getElementById("usernameAvailability");
+
+        if (data.isTaken) {
+            availabilityElement.style.display = "inline";
+        } else {
+            availabilityElement.style.display = "none";
+        }
+    }
+</script>
