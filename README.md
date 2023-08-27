@@ -23,6 +23,7 @@ Welcome to the official repository of YourBlog! Our mission is to provide a user
 
 
 ## 📷 Screenshots
+![img.png](img.png)
 
 ## 🚀 Getting Started
 
