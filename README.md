@@ -23,7 +23,13 @@ Welcome to the official repository of YourBlog! Our mission is to provide a user
 
 
 ## 📷 Screenshots
-![img.png](img.png)
+
+<p align="center">
+  <img src="img.png" alt="Description of Image" width="500"/>
+  <br>
+  <em>Home Page</em>
+</p>
+
 
 ## 🚀 Getting Started
 
