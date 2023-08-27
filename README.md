@@ -26,13 +26,13 @@ Welcome to the official repository of YourBlog! Our mission is to provide a user
 
 <div style="display: flex; justify-content: center; align-items: center;">
     <div style="margin-right: 10px;">
-        <img src="img.png" alt="home page" width="200"/>
+        <img src="img.png" alt="home page" width="300"/>
         <br>
         <em style="text-align: center;">Home page</em>
     </div>
    <br>
    <div style="margin-right: 10px;">
-    <img src="img_1.png" alt=" login page" width="200"/>
+    <img src="img_1.png" alt=" login page" width="300"/>
     <br>
     <em style="text-align: center;">Log-in page</em>
    </div>
