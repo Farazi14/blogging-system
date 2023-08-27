@@ -30,6 +30,7 @@ Welcome to the official repository of YourBlog! Our mission is to provide a user
         <br>
         <em style="text-align: center;">Home page</em>
     </div>
+   <br>
    <div style="margin-right: 10px;">
     <img src="img_1.png" alt=" login page" width="200"/>
     <br>
