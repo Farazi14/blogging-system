@@ -24,7 +24,7 @@ Welcome to the official repository of YourBlog! Our mission is to provide a user
 
 ## 📷 Screenshots
 
-<div style="display: flex; justify-content: center; align-items: center;">
+<div style="display: flex; justify-content: space-around; align-items: center;">
     <div style="margin-right: 10px; border: 2px solid #000;">
         <img src="img.png" alt="home page" width="300"/>
         <br>
