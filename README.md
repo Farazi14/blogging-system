@@ -24,19 +24,12 @@ Welcome to the official repository of YourBlog! Our mission is to provide a user
 
 ## 📷 Screenshots
 
-<div style="display: flex; justify-content: space-around; align-items: center;">
-    <div style="margin-right: 10px; border: 2px solid #000;">
-        <img src="img.png" alt="home page" width="300"/>
-        <br>
-        <em style="text-align: center;">Home page</em>
-    </div>
-   <br>
-   <div style="margin-right: 10px; border: 2px solid #000;">
-    <img src="img_1.png" alt=" login page" width="300"/>
-    <br>
-    <em style="text-align: center;">Log-in page</em>
-   </div>
-</div>
+|   ![img.png](img.png)   | ![img_1.png](img_1.png) |
+|:-----------------------:|:-----------------------:|
+|       *Home Page*       |      *Log-in Page*      |
+| ![img_2.png](img_2.png) | ![img_3.png](img_3.png) |
+|     *Post Article*      |    *Create Account*     |
+
 
 
 ## 🚀 Getting Started
