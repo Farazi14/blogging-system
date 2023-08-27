@@ -1,4 +1,4 @@
-# Final Project - Web
+ Final Project - Web
 
 Begin by forking this repository into your lab exercises namespace by clicking the ```fork``` button.
 
