@@ -9,8 +9,6 @@ const dbConnection = mariadb.createConnection({
     database: process.env.DB_NAME
 });
 
-console.log(process.env.DB_HOST);
-
 // Connect to the database
 if(dbConnection) {
     console.log("Connected to the database");
