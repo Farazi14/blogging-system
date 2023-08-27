@@ -39,7 +39,7 @@ Welcome to the official repository of YourBlog! Our mission is to provide a user
 ### Prerequisites
 
 - Node.js (v14+)
-- MySQL (v4.4+)
+- MySQL (v4.4+) (Create your database, connect to it by modifying database.js file located in modules folder and then run`init-db.sql` file)
 
 ### Installation
 
