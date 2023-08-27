@@ -45,7 +45,7 @@ Welcome to the official repository of YourBlog! Our mission is to provide a user
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/yourblogname.git
+   git clone https://github.com/Farazi14/blogging-system.git
     ```
 2. Navigate to the project directory and install dependencies:
    ```bash
