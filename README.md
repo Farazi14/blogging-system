@@ -24,11 +24,13 @@ Welcome to the official repository of YourBlog! Our mission is to provide a user
 
 ## 📷 Screenshots
 
-|   ![img.png](img.png)   | ![img_1.png](img_1.png) |
-|:-----------------------:|:-----------------------:|
-|       *Home Page*       |      *Log-in Page*      |
-| ![img_2.png](img_2.png) | ![img_3.png](img_3.png) |
-|     *Post Article*      |    *Create Account*     |
+|   ![img.png](img.png)    | ![img_1.png](img_1.png) |
+|:------------------------:|:-----------------------:|
+|       *Home Page*        |      *Log-in Page*      |
+| ![img_2.png](img_2.png)  | ![img_3.png](img_3.png) |
+|      *Post Article*      |    *Create Account*     |
+| ![img_4.png](img_4.png)  | ![img_5.png](img_5.png) |
+|  *Like & View Comment*   |    *Comment Article*    |
 
 
 
