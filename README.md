@@ -74,6 +74,6 @@ This project is licensed under the MIT License.
 
 ## 📞 Support
 
-If you encounter any issues, have suggestions, or general inquiries, please open an issue on this repository or reach out to our faraz_139@hotmail.com.
+If you encounter any issues, have suggestions, or general inquiries, please reach out to our faraz_139@hotmail.com.
 
 
