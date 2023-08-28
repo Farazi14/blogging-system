@@ -1,6 +1,6 @@
 # YourBlog - A Modern Blogging Platform
 
-Welcome to the official repository of YourBlog! Our mission is to provide a user-friendly, open-source blogging platform for writers, developers, and content creators around the world.
+Welcome to the official repository of YourBlog! The aim is to provide a user-friendly, open-source blogging platform for writers, developers, and content creators around the world.
 
 ## 🌟 Features
 
